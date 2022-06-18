@@ -37,6 +37,19 @@ func GetUserByUsername(c *gin.Context) {
 	c.JSON(http.StatusOK, user)
 }
 
+func LoginAdmin(c *gin.Context) {
+	var user model.User
+	if err := db.DB.Where("username = ?", c.Query("username")).First(&user).Error; err != nil {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"Record": "Record not found"})
+		return
+	}
+
+	if user.Role != "admin" {
+		c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"Message": "Unauthorized"})
+		return
+	}
+}
+
 func GetAllUsers(c *gin.Context) {
 	var product []model.User
 	db.DB.Find(&product)

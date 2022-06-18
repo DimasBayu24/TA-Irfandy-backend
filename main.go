@@ -52,6 +52,8 @@ func main() {
 	r.Use(CORSMiddleware())
 
 	r.POST("/login", authMiddleware.LoginHandler)
+	admin := r.Group("/admin", controller.LoginAdmin)
+	admin.POST("/login", authMiddleware.LoginHandler)
 	r.POST("/register", controller.Register)
 	r.GET("/logout", authMiddleware.LogoutHandler)
 
@@ -69,6 +71,7 @@ func main() {
 
 		auth.POST("/order", controller.PostOrder)
 		auth.GET("/orders", controller.GetAllOrders)
+		auth.GET("/orders_by_id", controller.GetAllOrderByID)
 		auth.GET("/order", controller.GetOrderByID)
 		auth.PATCH("/order/patch", controller.UpdateOrderByID)
 		auth.DELETE("/order/delete", controller.DeleteOrderByID)
