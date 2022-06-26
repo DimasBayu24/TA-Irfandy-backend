@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -26,11 +25,12 @@ func PostOrderFood(c *gin.Context) {
 	}
 	fmt.Println("var1 = ", reflect.ValueOf(input.Quantity).Kind())
 	fmt.Println(input.Quantity)
-	fmt.Println(json.Marshal(input))
+	fmt.Println(input.UserID)
 
-	db.DB.First(&order).Where("user_id = ?",input.UserID)
+	db.DB.Where("user_id = ?",input.UserID).Where("status = 'Not Done'").First(&order)
+	fmt.Println("ini hasil search", order)
 	if order.ID == 0 {
-		fmt.Println(order.ID == 0)
+		fmt.Println("masuk sini")
 		product := model.Order{
 			UserID:     input.UserID,
 			OrderDate:  time.Now(),

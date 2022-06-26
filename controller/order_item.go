@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"product-api/db"
@@ -23,6 +24,29 @@ func GetOrderItemByID(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, product)
+}
+
+func GetOrderItemByOrderID(c *gin.Context) {
+	type Result struct {
+		ID          int    `gorm:"column:id"`
+		OrderID     int    `gorm:"column:order_id"`
+		Quantity    int    `gorm:"column:quantity"`
+		ProductName string `gorm:"column:product_name"`
+	}
+	var result []Result
+	err := db.DB.Raw("SELECT a.id, a.order_id, a.quantity, b.product_name FROM order_items a "+
+		"LEFT JOIN products b "+
+		"ON a.product_id = b.id "+
+		"LEFT JOIN orders c "+
+		"ON a.order_id = c.id "+
+		"WHERE c.id = ?", c.Query("order_id")).Scan(&result).Error
+	if err != nil {
+		fmt.Println("error")
+
+	}
+	fmt.Println("tes hasil order user id", c.Query("user_id"))
+	fmt.Println("tes hasil order get", result)
+	c.JSON(http.StatusOK, result)
 }
 
 func PostOrderItem(c *gin.Context) {

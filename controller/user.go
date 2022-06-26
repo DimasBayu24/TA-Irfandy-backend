@@ -20,6 +20,7 @@ func Register(c *gin.Context) {
 		Username: input.Username,
 		Password: input.Password,
 		Fullname: input.Fullname,
+		Phone:    input.Phone,
 		Role:     input.Role,
 	}
 	db.DB.Create(&user)
@@ -77,6 +78,7 @@ func PostUser(c *gin.Context) {
 		Username: input.Username,
 		Password: input.Password,
 		Fullname: input.Fullname,
+		Phone:    input.Phone,
 		Role:     input.Role,
 	}
 	db.DB.Create(&product)
@@ -96,8 +98,6 @@ func UpdateUserByID(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-
 
 	db.DB.Model(&product).Updates(input)
 

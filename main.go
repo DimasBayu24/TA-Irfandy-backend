@@ -97,6 +97,7 @@ func main() {
 		auth.DELETE("/available/delete", controller.DeleteAvailableByID)
 
 		auth.POST("/order_food", controller.PostOrderFood)
+		auth.GET("/order/order_item", controller.GetOrderItemByOrderID)
 
 		auth.POST("/upload", controller.FileUpload())
 

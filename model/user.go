@@ -7,6 +7,7 @@ type User struct {
 	Username string
 	Password string
 	Fullname string
+	Phone    string
 	Role     string
 }
 

@@ -11,5 +11,6 @@ type Order struct {
 	OrderDate  time.Time
 	Status     string
 	TotalPrice int
+	PaymentUrl string
 	OrderItem  []OrderItem
 }
